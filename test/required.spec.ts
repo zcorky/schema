@@ -1,0 +1,52 @@
+import * as Types from '../src';
+
+describe('required', () => {
+  it('string', () => {
+    expect(() => Types.validate(new Types.string().required(), undefined)).toThrow(/required/);
+  });
+
+  it('number', () => {
+    expect(() => Types.validate(new Types.number().required(), undefined)).toThrow(/required/);
+  });
+
+  it('boolean', () => {
+    expect(() => Types.validate(new Types.boolean().required(), undefined)).toThrow(/required/);
+  });
+
+  it('object', () => {
+    expect(() => Types.validate(new Types.object({}).required(), undefined)).toThrow(/required/);
+  });
+
+  it('array', () => {
+    expect(() => Types.validate(new Types.array({}).required(), undefined)).toThrow(/required/);
+  });
+
+  it('complex 1', () => {
+    const post = new Types.object({
+      id: new Types.string().required(),
+      title: new Types.string().required(),
+      description: new Types.string(),
+      content: new Types.string().required(),
+      comments: new Types.array(new Types.object({
+        id: new Types.string().required(),
+        user: new Types.object({
+          id: new Types.string().required(),
+          nickname: new Types.string().required(),
+          createdAt: new Types.string().required(),
+        }).required(),
+      }).required()).required(),
+    }).required();
+
+    expect(() => Types.validate(post, undefined)).toThrow(/root\s.*required/);
+    expect(() => Types.validate(post, {})).toThrow(/id\s.*required/);
+    expect(() => Types.validate(post, { id: 'xxx' })).toThrow(/title\s.*required/);
+    expect(() => Types.validate(post, { id: 'xxx', title: 'xxx' })).toThrow(/description\s.*string/);
+    expect(() => Types.validate(post, { id: 'xxx', title: 'xxx', description: 'xxx' })).toThrow(/content\s.*required/);
+    expect(() => Types.validate(post, { id: 'xxx', title: 'xxx', description: 'xxx', content: 'xxx' })).toThrow(/comments\s.*required/);
+    expect(() => Types.validate(post, { id: 'xxx', title: 'xxx', description: 'xxx', content: 'xxx', comments: [] })).not.toThrow();
+    // @TODO nest path
+    expect(() => Types.validate(post, { id: 'xxx', title: 'xxx', description: 'xxx', content: 'xxx', comments: [undefined] })).toThrow(/root\s.*required/);
+    expect(() => Types.validate(post, { id: 'xxx', title: 'xxx', description: 'xxx', content: 'xxx', comments: [{}] })).toThrow(/id\s.*required/);
+    expect(() => Types.validate(post, { id: 'xxx', title: 'xxx', description: 'xxx', content: 'xxx', comments: [{ id: 'xxx' }] })).toThrow(/user\s.*required/);
+  });
+});

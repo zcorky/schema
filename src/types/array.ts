@@ -1,0 +1,21 @@
+import { array } from '@zcorky/is';
+
+import { Type } from '../core/type';
+import { assert } from '../utils';
+
+export default class <T> extends Type<T> {
+  constructor(private value: T) {
+    super();
+
+    this.type();
+  }
+
+  public type() {
+    this.addValidator(assert(array, '{key} should be array'));
+    return this;
+  }
+
+  public getType() {
+    return this.value;
+  }
+}
