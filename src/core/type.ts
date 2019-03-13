@@ -24,8 +24,8 @@ export abstract class Type<T> implements IType<T> {
   };
 
   public required() {
-    this.headValidator(
-      assert((v: any) => !undef(v),
+    this.headValidator(assert(
+      (v: any) => !undef(v),
       '{path} is required',
     ));
 
@@ -37,14 +37,14 @@ export abstract class Type<T> implements IType<T> {
   //   return this;
   // }
 
-  // public oneOf(...values: T[]) {
-  //   this.addValidator(
-  //     assert((v: any) => values.some(v),
-  //     `{path} is one of [${values.join(',')}]`,
-  //   ));
+  public oneOf(...values: T[]) {
+    this.addValidator(assert(
+      (v: any) => values.some(e => e === v),
+      `{path} is one of [${values.join(',')}]`,
+    ));
 
-  //   return this;
-  // }
+    return this;
+  }
 
   public validate(path: string, value: any) {
     this.validators.forEach(validator => {
