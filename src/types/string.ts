@@ -11,7 +11,7 @@ export default class extends Type<string> {
   }
 
   public type() {
-    this.addValidator(assert(string, '{key} should be string'));
+    this.addValidator(assert(string, '{path} should be string'));
     return this;
   }
 }

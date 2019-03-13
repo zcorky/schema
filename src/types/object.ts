@@ -11,7 +11,7 @@ export default class <T extends object> extends Type<T> {
   }
 
   public type() {
-    this.addValidator(assert(object, '{key} should be object'));
+    this.addValidator(assert(object, '{path} should be object'));
     return this;
   }
 

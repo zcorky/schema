@@ -19,27 +19,34 @@ const oneOf = (schema: ISchema, types: IObject[]) => {
   return types.some((t) => schemaOf(schema, t));
 }
 
-export function validate<S extends ISchema, V>(schema: S, value: V, key: any = 'root') {
+export function validate<S extends ISchema, V>(schema: S, value: V, path: any = 'root') {
   // primitive
   if (oneOf(schema, [Types.string, Types.number, Types.boolean])) {
-    return schema.validate(key, value);
+    return schema.validate(path, value);
   }
 
   // object
   if (schemaOf(schema, Types.object)) {
-    const v = schema.validate(key, value);
+    const v = schema.validate(path, value);
 
     const o = (schema as any as Types.object<any>);
     return o
       .keys()
-      .reduce((prev, k) => (prev[k] = validate(o.get(k), v[k], k), prev), {});
+      .reduce((prev, key) => {
+        const nextPath = `${path}.${key}`;
+        prev[key] = validate(o.get(key), v[key], nextPath);
+        return prev;
+      }, {});
   }
 
   // array
   if (schemaOf(schema, Types.array)) {
-    const v = schema.validate(key, value) as any[];
+    const v = schema.validate(path, value) as any[];
     const o = (schema as any as Types.array<any>);
     const s = o.getType();
-    return v.map(ev => validate(s, ev));
+    return v.map((ev, index) => {
+      const nextPath = `${path}.${index}`;
+      return validate(s, ev, nextPath);
+    });
   }
 }

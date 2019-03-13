@@ -11,7 +11,7 @@ export default class extends Type<boolean> {
   }
 
   public type() {
-    this.addValidator(assert(boolean, '{key} should be boolean'));
+    this.addValidator(assert(boolean, '{path} should be boolean'));
     return this;
   }
 }

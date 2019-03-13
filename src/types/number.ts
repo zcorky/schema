@@ -11,7 +11,7 @@ export default class extends Type<number> {
   }
 
   public type() {
-    this.addValidator(assert(number, '{key} should be number'));
+    this.addValidator(assert(number, '{path} should be number'));
     return this;
   }
 }

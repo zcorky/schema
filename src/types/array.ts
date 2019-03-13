@@ -11,7 +11,7 @@ export default class <T> extends Type<T> {
   }
 
   public type() {
-    this.addValidator(assert(array, '{key} should be array'));
+    this.addValidator(assert(array, '{path} should be array'));
     return this;
   }
 
