@@ -6,9 +6,9 @@ export const format = (pattern: string, map: Record<string, any>) => {
 }
 
 export const assert = <T>(fn: (v: T) => boolean, message: string) => {
-  return (key: string, value: T) => {
+  return (path: string, value: T) => {
     if (!fn(value)) {
-      throw new Error(format(message, { key }));
+      throw new Error(format(message, { path }));
     }
   };
 }
