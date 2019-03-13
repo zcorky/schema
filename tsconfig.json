@@ -9,7 +9,7 @@
         "outDir": "lib",
         "lib": ["es2018"],
         "declaration": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "removeComments": true
     },
     "include": ["src/**/*.ts"]
