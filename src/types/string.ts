@@ -14,4 +14,12 @@ export default class extends Type<string> {
     this.addValidator(assert(string, '{path} should be string'));
     return this;
   }
+
+  public regex(re: RegExp, message?: string) {
+    this.addValidator(assert(
+      (v: string) => re.test(v),
+      string(message) ? message : `{path} with value "{value}" fails to match pattern: ${re.toString()}`,
+    ));
+    return this;
+  }
 }
