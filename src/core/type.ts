@@ -12,12 +12,13 @@ export type IValidator<T> = (key: string, value: T) => void;
 export abstract class Type<T> implements IType<T> {
   private meta = {
     required: false,
+    default: undefined as any as T,
   };
-  private defaultValue: T;
   protected validators: IValidator<any>[] = [];
 
-  public is(name: string): boolean {
-    if (isUndefined(this.meta[name])) {
+  // @TODO should private
+  public getMeta(name: string): boolean {
+    if (!this.meta.hasOwnProperty(name)) {
       throw new Error('Illegal call is with name: ' + name);
     }
     
@@ -45,10 +46,10 @@ export abstract class Type<T> implements IType<T> {
     return this;
   }
 
-  // public default(value: T) {
-  //   this.defaultValue = value;
-  //   return this;
-  // }
+  public default(value: T) {
+    this.meta.default = value;
+    return this;
+  }
 
   public oneOf(...values: T[]) {
     this.addValidator(assert(
