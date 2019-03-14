@@ -51,6 +51,12 @@ export abstract class Type<T> implements IType<T> {
     return this;
   }
 
+  public optional() {
+    this.meta.required = false;
+
+    return this;
+  }
+
   public oneOf(...values: T[]) {
     this.addValidator(assert(
       (v: any) => values.some(e => e === v),
