@@ -22,4 +22,28 @@ export default class extends Type<string> {
     ));
     return this;
   }
+
+  public min(limit: number) {
+    this.addValidator(assert(
+      (v: string) => v.length >= limit,
+      `{path} with value "{value}" length must be at least ${limit} characters long`,
+    ));
+    return this;
+  }
+
+  public max(limit: number) {
+    this.addValidator(assert(
+      (v: string) => v.length <= limit,
+      `{path} with value "{value}" length must be less than or equal to ${limit} characters long`,
+    ));
+    return this;
+  }
+
+  public length(limit: number) {
+    this.addValidator(assert(
+      (v: string) => v.length === limit,
+      `{path} with value "{value}" length must be ${limit} characters long`,
+    ));
+    return this;
+  }
 }
