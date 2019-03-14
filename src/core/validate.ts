@@ -21,8 +21,14 @@ const oneOf = (schema: ISchema, types: IObject[]) => {
 }
 
 export function validate<S extends ISchema, V>(schema: S, value: V, path: any = 'root') {
-  if (isUndefined(value) && !schema.is('required')) {
-    return value;
+  if (isUndefined(value)) {
+    if (!isUndefined(schema.getMeta('default'))) { // default
+      return schema.getMeta('default');
+    }
+    
+    if (!schema.getMeta('required')) { // optional
+      return value;
+    }
   }
 
   // primitive
@@ -39,7 +45,14 @@ export function validate<S extends ISchema, V>(schema: S, value: V, path: any = 
       .keys()
       .reduce((prev, key) => {
         const nextPath = `${path}.${key}`;
-        prev[key] = validate(o.get(key), v[key], nextPath);
+        const notUndefinedValue = validate(o.get(key), v[key], nextPath);
+
+        // ignore undefined, whatever key not in value
+        //  or key in value, but value[key] is undefined
+        if (!isUndefined(notUndefinedValue)) {
+          prev[key] = notUndefinedValue;
+        }
+        
         return prev;
       }, {});
   }
