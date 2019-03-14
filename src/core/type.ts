@@ -1,4 +1,4 @@
-import { undef } from '@zcorky/is';
+import { undef as isUndefined } from '@zcorky/is';
 import { assert } from '../utils';
 
 export interface IType<T> {
@@ -10,8 +10,19 @@ export interface IType<T> {
 export type IValidator<T> = (key: string, value: T) => void;
 
 export abstract class Type<T> implements IType<T> {
+  private meta = {
+    required: false,
+  };
   private defaultValue: T;
   protected validators: IValidator<any>[] = [];
+
+  public is(name: string): boolean {
+    if (isUndefined(this.meta[name])) {
+      throw new Error('Illegal call is with name: ' + name);
+    }
+    
+    return this.meta[name];
+  }
 
   protected abstract type(): this;
 
@@ -24,8 +35,10 @@ export abstract class Type<T> implements IType<T> {
   };
 
   public required() {
+    this.meta.required = true;
+
     this.headValidator(assert(
-      (v: any) => !undef(v),
+      (v: any) => !isUndefined(v),
       '{path} is required',
     ));
 

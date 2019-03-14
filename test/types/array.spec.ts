@@ -15,7 +15,7 @@ describe('array', () => {
 
   it('type array', () => {
     expect(() => Types.validate(usersSchema, null)).toThrowError(/root\s.*array/);
-    expect(() => Types.validate(usersSchema, undefined)).toThrowError(/root\s.*array/);
+    expect(() => Types.validate(usersSchema, null)).toThrowError(/root\s.*array/);
     expect(() => Types.validate(usersSchema, 1)).toThrowError(/root\s.*array/);
     expect(() => Types.validate(usersSchema, '1')).toThrowError(/root\s.*array/);
     expect(() => Types.validate(usersSchema, false)).toThrowError(/root\s.*array/);
@@ -23,7 +23,10 @@ describe('array', () => {
   });
 
   it('child object', () => {
-    expect(() => Types.validate(usersSchema, [undefined])).toThrowError(/object/);
+    expect(Types.validate(usersSchema, [])).toEqual([]);
+    // @TODO [undefined] is not a valid json string, because
+    //  JSON.stringify([undefined]) => [null]
+    expect(Types.validate(usersSchema, [undefined])).toEqual([undefined]);
     expect(() => Types.validate(usersSchema, [null])).toThrowError(/object/);
     expect(() => Types.validate(usersSchema, [1])).toThrowError(/object/);
   });

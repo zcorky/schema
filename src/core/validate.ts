@@ -1,3 +1,4 @@
+import { undef as isUndefined } from '@zcorky/is';
 import { Type } from './type';
 import * as Types from '../types';
 
@@ -20,6 +21,10 @@ const oneOf = (schema: ISchema, types: IObject[]) => {
 }
 
 export function validate<S extends ISchema, V>(schema: S, value: V, path: any = 'root') {
+  if (isUndefined(value) && !schema.is('required')) {
+    return value;
+  }
+
   // primitive
   if (oneOf(schema, [Types.string, Types.number, Types.boolean])) {
     return schema.validate(path, value);
@@ -42,6 +47,7 @@ export function validate<S extends ISchema, V>(schema: S, value: V, path: any = 
   // array
   if (schemaOf(schema, Types.array)) {
     const v = schema.validate(path, value) as any[];
+
     const o = (schema as any as Types.array<any>);
     const s = o.getType();
     return v.map((ev, index) => {

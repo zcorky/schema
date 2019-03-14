@@ -1,24 +1,29 @@
 import * as Types from '../src';
 
-describe('required', () => {
+describe('optional', () => {
   it('string', () => {
     expect(() => Types.validate(new Types.string().required(), undefined)).toThrow(/required/);
+    expect(() => Types.validate(new Types.string(), undefined)).not.toThrow(/required/);
   });
 
   it('number', () => {
     expect(() => Types.validate(new Types.number().required(), undefined)).toThrow(/required/);
+    expect(() => Types.validate(new Types.number(), undefined)).not.toThrow(/required/);
   });
 
   it('boolean', () => {
     expect(() => Types.validate(new Types.boolean().required(), undefined)).toThrow(/required/);
+    expect(() => Types.validate(new Types.boolean(), undefined)).not.toThrow(/required/);
   });
 
   it('object', () => {
     expect(() => Types.validate(new Types.object({}).required(), undefined)).toThrow(/required/);
+    expect(() => Types.validate(new Types.object({}), undefined)).not.toThrow(/required/);
   });
 
   it('array', () => {
     expect(() => Types.validate(new Types.array({}).required(), undefined)).toThrow(/required/);
+    expect(() => Types.validate(new Types.array({}), undefined)).not.toThrow(/required/);
   });
 
   it('complex 1', () => {
