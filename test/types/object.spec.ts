@@ -20,6 +20,6 @@ describe('object', () => {
     expect(Types.validate(schema, { id: '0x1' })).toEqual({ id: '0x1'});
     expect(() => Types.validate(schema, 1)).toThrowError(/root\s.*object/);
     expect(() => Types.validate(schema, true)).toThrowError(/object/);
-    expect(() => Types.validate(schema, {})).toThrowError(/id\s.*string/);
+    expect(() => Types.validate(schema, {})).not.toThrowError(/id\s.*string/);
   });
 });
