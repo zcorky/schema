@@ -18,7 +18,7 @@ export default class extends Type<string> {
   public regex(re: RegExp, message?: string) {
     this.addValidator(assert(
       (v: string) => re.test(v),
-      string(message) ? message : `{path} with value "{value}" fails to match pattern: ${re.toString()}`,
+      string(message) ? String(message) : `{path} with value "{value}" fails to match pattern: ${re.toString()}`,
     ));
     return this;
   }
