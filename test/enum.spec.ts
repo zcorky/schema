@@ -1,22 +1,22 @@
 import * as Types from '../src';
 
-describe('oneOf', () => {
+describe('enum', () => {
   it('string', () => {
-    expect(() => Types.validate(new Types.string().oneOf(['male', 'female']).required(), undefined)).toThrow(/required/);
-    expect(() => Types.validate(new Types.string().oneOf(['male', 'female']).required(), 'males')).toThrow(/one of/);
-    expect(() => Types.validate(new Types.string().oneOf(['male', 'female']).required(), 'male')).not.toThrow();
+    expect(() => Types.validate(new Types.string().enum(['male', 'female']).required(), undefined)).toThrow(/required/);
+    expect(() => Types.validate(new Types.string().enum(['male', 'female']).required(), 'males')).toThrow(/one of/);
+    expect(() => Types.validate(new Types.string().enum(['male', 'female']).required(), 'male')).not.toThrow();
   });
 
   it('number', () => {
-    expect(() => Types.validate(new Types.number().oneOf([0, 1]).required(), undefined)).toThrow(/required/);
-    expect(() => Types.validate(new Types.number().oneOf([0, 1]).required(), 2)).toThrow(/one of/);
-    expect(() => Types.validate(new Types.number().oneOf([0, 1]).required(), 0)).not.toThrow();
+    expect(() => Types.validate(new Types.number().enum([0, 1]).required(), undefined)).toThrow(/required/);
+    expect(() => Types.validate(new Types.number().enum([0, 1]).required(), 2)).toThrow(/one of/);
+    expect(() => Types.validate(new Types.number().enum([0, 1]).required(), 0)).not.toThrow();
   });
 
   it('boolean', () => {
-    expect(() => Types.validate(new Types.boolean().oneOf([true, false]).required(), undefined)).toThrow(/required/);
-    expect(() => Types.validate(new Types.boolean().oneOf([true, false]).required(), false)).not.toThrow();
-    expect(() => Types.validate(new Types.boolean().oneOf([true, false]).required(), true)).not.toThrow();
+    expect(() => Types.validate(new Types.boolean().enum([true, false]).required(), undefined)).toThrow(/required/);
+    expect(() => Types.validate(new Types.boolean().enum([true, false]).required(), false)).not.toThrow();
+    expect(() => Types.validate(new Types.boolean().enum([true, false]).required(), true)).not.toThrow();
   });
 
   it('complex object', () => {
@@ -25,7 +25,7 @@ describe('oneOf', () => {
       title: new Types.string().required(),
       description: new Types.string(),
       content: new Types.string().required(),
-      category: new Types.string().oneOf(['cat1', 'cat2']).required(),
+      category: new Types.string().enum(['cat1', 'cat2']).required(),
       comments: new Types.array(new Types.object({
         id: new Types.string().required(),
         user: new Types.object({
