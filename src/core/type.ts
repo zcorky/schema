@@ -57,13 +57,17 @@ export abstract class Type<T> implements IType<T> {
     return this;
   }
 
-  public oneOf(...values: T[]) {
+  public oneOf(values: T[]) {
     this.addValidator(assert(
       (v: any) => values.some(e => e === v),
       `{path} is one of [${values.join(',')}]`,
     ));
 
     return this;
+  }
+
+  public enum(values: T[]) {
+    return this.oneOf(values);
   }
 
   public validate(path: string, value: any) {
