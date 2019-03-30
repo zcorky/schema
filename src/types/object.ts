@@ -1,9 +1,13 @@
 import { object } from '@zcorky/is';
 
-import { Type } from '../core/type';
+import { Type, IType } from '../core/type';
 import { assert } from '../utils';
 
-export default class <T extends object> extends Type<T> {
+export interface IObject<T extends object> extends IType<T> {
+  entity(): T;
+}
+
+class Objectx<T extends object> extends Type<T> implements IObject<T> {
   constructor(private value: T) {
     super();
 
@@ -22,4 +26,10 @@ export default class <T extends object> extends Type<T> {
   public get(key: string) {
     return this.value[key];
   }
+
+  public entity() {
+    return this.value;
+  }
 }
+
+export default Objectx;
