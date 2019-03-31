@@ -7,6 +7,12 @@ describe('string', () => {
     expect(() => Types.validate(new Types.string().regex(/\d+/), 'abc')).toThrow(/root.*abc.*d+/);
   });
 
+  it('regex with message', () => {
+    expect(() => Types.validate(new Types.string().regex(/\d+/), '1')).not.toThrow();
+    expect(() => Types.validate(new Types.string().regex(/\d+/), 'abc')).toThrow(/root.*abc.*d+/);
+    expect(() => Types.validate(new Types.string().regex(/\d+/, 'xxx'), 'abc')).toThrow(/xxx/);
+  });
+
   it('min', () => {
     expect(() => Types.validate(new Types.string().min(6), '123456')).not.toThrow();
     expect(() => Types.validate(new Types.string().min(6), '123')).toThrow(/root.*at least.*6/);

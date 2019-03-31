@@ -84,6 +84,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@zcorky/is": "^1.0.6"
+    "@zcorky/is": "^1.0.6",
+    "@zodash/format": "^1.0.1-alpha.0"
   }
 }
