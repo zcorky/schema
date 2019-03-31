@@ -1,6 +1,6 @@
 {
   "name": "@zcorky/schema",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Object schema validation written with TypeScript, inspired by dayjs and schema",
   "main": "lib/index.js",
   "repository": "https://github.com/zcorky/schema",
