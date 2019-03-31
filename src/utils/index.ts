@@ -1,9 +1,4 @@
-
-export const format = (pattern: string, map: Record<string, any>) => {
-  return pattern.replace(/{([^}]+)}/g, (_, key) => {
-    return typeof map[key] !== 'undefined' ? map[key] : '';
-  });
-}
+import { format } from '@zodash/format';
 
 export const assert = <T>(fn: (v: T) => boolean, message: string) => {
   return (path: string, value: T) => {
