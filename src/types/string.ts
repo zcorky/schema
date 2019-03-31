@@ -1,4 +1,4 @@
-import { string } from '@zcorky/is';
+import { string, date } from '@zcorky/is';
 
 import { Type } from '../core/type';
 import { assert } from '../utils';
@@ -43,6 +43,31 @@ export default class extends Type<string> {
     this.addValidator(assert(
       (v: string) => v.length === limit,
       `{path} with value "{value}" length must be ${limit} characters long`,
+    ));
+    return this;
+  }
+
+  // functional
+  public date() {
+    this.addValidator(assert(
+      (v: string) => date(v),
+      `{path} with value "{value}" must be a date`,
+    ));
+    return this;
+  }
+
+  public email() {
+    this.addValidator(assert(
+      (v: string) => /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(v),
+      `{path} with value "{value}" must be a email`,
+    ));
+    return this;
+  }
+
+  public url() {
+    this.addValidator(assert(
+      (v: string) => /^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i.test(v),
+      `{path} with value "{value}" must be a url`,
     ));
     return this;
   }
