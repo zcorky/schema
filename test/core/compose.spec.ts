@@ -15,7 +15,7 @@ describe('compose', () => {
       age: new Types.number().required(),
     });
 
-    const composed = Types.compose(id, user);
+    // const composed = Types.compose(id, user);
 
     expect(() => Types.validate(Types.compose(id, user), {})).toThrow(/id/);
     expect(() => Types.validate(Types.compose(id, user), { id: 'x' })).toThrow(/name/);
