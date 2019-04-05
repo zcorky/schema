@@ -1,9 +1,10 @@
 import { format } from '@zodash/format';
+import { ValidationError } from './error';
 
 export const assert = <T>(fn: (v: T) => boolean, message: string) => {
   return (path: string, value: T) => {
     if (!fn(value)) {
-      throw new Error(format(message, { path, value }));
+      throw new ValidationError(format(message, { path, value }));
     }
   };
 }
