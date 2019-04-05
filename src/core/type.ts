@@ -1,13 +1,16 @@
 import { undef as isUndefined } from '@zcorky/is';
+import { IOptions } from './interface';
 import { assert } from '../utils';
 
 export interface IType<T> {
   required(): this;
-  // default(value: T): this;
-  // oneOf(...args: T[]): this;
+  optional(): this;
+  default(value: T): this;
+  oneOf(values: T[]): this;
+  enum(values: T[]): this;
 }
 
-export type IValidator<T> = (key: string, value: T) => void;
+export type IValidator<T> = (key: string, value: T, options?: IOptions) => void;
 
 export abstract class Type<T> implements IType<T> {
   private meta = {
@@ -21,7 +24,7 @@ export abstract class Type<T> implements IType<T> {
     if (!this.meta.hasOwnProperty(name)) {
       throw new Error('Illegal call is with name: ' + name);
     }
-    
+
     return this.meta[name];
   }
 
@@ -60,7 +63,7 @@ export abstract class Type<T> implements IType<T> {
   public oneOf(values: T[]) {
     this.addValidator(assert(
       (v: any) => values.some(e => e === v),
-      `{path} is one of [${values.join(',')}]`,
+      `[{name}] {path} is one of [${values.join(',')}]`,
     ));
 
     return this;
@@ -70,9 +73,9 @@ export abstract class Type<T> implements IType<T> {
     return this.oneOf(values);
   }
 
-  public validate(path: string, value: any) {
+  public validate(path: string, value: any, options?: IOptions) {
     this.validators.forEach(validator => {
-      validator(path, value);
+      validator(path, value, options);
     });
 
     return value;

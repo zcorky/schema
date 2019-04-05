@@ -15,7 +15,7 @@ class Objectx<T extends object> extends Type<T> implements IObject<T> {
   }
 
   public type() {
-    this.addValidator(assert(object, '{path} should be object'));
+    this.addValidator(assert(object, '[{name}] {path} should be object'));
     return this;
   }
 

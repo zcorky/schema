@@ -11,14 +11,14 @@ export default class extends Type<string> {
   }
 
   public type() {
-    this.addValidator(assert(string, '{path} should be string'));
+    this.addValidator(assert(string, '[{name}] {path} should be string'));
     return this;
   }
 
   public regex(re: RegExp, message?: string) {
     this.addValidator(assert(
       (v: string) => re.test(v),
-      string(message) ? String(message) : `{path} with value "{value}" fails to match pattern: ${re.toString()}`,
+      string(message) ? String(message) : `[{name}] {path} with value "{value}" fails to match pattern: ${re.toString()}`,
     ));
     return this;
   }
@@ -26,7 +26,7 @@ export default class extends Type<string> {
   public min(limit: number) {
     this.addValidator(assert(
       (v: string) => v.length >= limit,
-      `{path} with value "{value}" length must be at least ${limit} characters long`,
+      `[{name}] {path} with value "{value}" length must be at least ${limit} characters long`,
     ));
     return this;
   }
@@ -34,7 +34,7 @@ export default class extends Type<string> {
   public max(limit: number) {
     this.addValidator(assert(
       (v: string) => v.length <= limit,
-      `{path} with value "{value}" length must be less than or equal to ${limit} characters long`,
+      `[{name}] {path} with value "{value}" length must be less than or equal to ${limit} characters long`,
     ));
     return this;
   }
@@ -42,7 +42,7 @@ export default class extends Type<string> {
   public length(limit: number) {
     this.addValidator(assert(
       (v: string) => v.length === limit,
-      `{path} with value "{value}" length must be ${limit} characters long`,
+      `[{name}] {path} with value "{value}" length must be ${limit} characters long`,
     ));
     return this;
   }
@@ -51,7 +51,7 @@ export default class extends Type<string> {
   public date() {
     this.addValidator(assert(
       (v: string) => date(v),
-      `{path} with value "{value}" must be a date`,
+      `[{name}] {path} with value "{value}" must be a date`,
     ));
     return this;
   }
@@ -59,7 +59,7 @@ export default class extends Type<string> {
   public email() {
     this.addValidator(assert(
       (v: string) => /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(v),
-      `{path} with value "{value}" must be a email`,
+      `[{name}] {path} with value "{value}" must be a email`,
     ));
     return this;
   }
@@ -67,7 +67,7 @@ export default class extends Type<string> {
   public url() {
     this.addValidator(assert(
       (v: string) => /^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i.test(v),
-      `{path} with value "{value}" must be a url`,
+      `[{name}] {path} with value "{value}" must be a url`,
     ));
     return this;
   }
