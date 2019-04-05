@@ -49,4 +49,27 @@ describe('error', () => {
     expect(() => Types.validate(post, { id: 'xxx', title: 'xxx', description: 'xxx', content: 'xxx', comments: [{}] })).toThrow(/root.comments.0.id\s.*required/);
     expect(() => Types.validate(post, { id: 'xxx', title: 'xxx', description: 'xxx', content: 'xxx', comments: [{ id: 'xxx' }] })).toThrow(/root.comments.0.user\s.*required/);
   });
+
+  it('detail', () => {
+    // type IValidationError = typeof Types.ValidationError<any>;
+    try {
+      Types.validate(new Types.string().required(), undefined);
+    } catch (error) {
+      const err = error as Types.ValidationError<{
+        name: string;
+        message: string;
+        path: string;
+        value: string;
+        // key: string;
+        // type: string;
+        // label: string;
+        // _object: object;
+      }>;
+      expect(error instanceof Types.ValidationError).toBeTruthy();
+      expect(error.detail).toHaveProperty(['name']);
+      expect(error.detail).toHaveProperty(['message']);
+      expect(error.detail).toHaveProperty(['path']);
+      expect(error.detail).toHaveProperty(['value']);
+    }
+  });
 });
