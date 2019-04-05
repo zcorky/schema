@@ -1,5 +1,6 @@
 import { DEFAULT_OPTIONS } from './../core/constants';
 import { format } from '@zodash/format';
+import { ValidationError } from './error';
 
 import { IOptions } from '../core/interface';
 
@@ -15,7 +16,7 @@ export const assert = <T>(fn: (v: T) => boolean, message: string) => {
         value,
       });
 
-      const error = new Error(msg);
+      const error = new ValidationError(msg);
       // error.detail = {}
       // error.options = options;
 
