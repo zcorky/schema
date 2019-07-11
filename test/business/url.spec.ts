@@ -17,4 +17,8 @@ describe('url', () => {
   it('moeover.com', () => {
     expect(() => Types.validate(new Types.string().url(), 'moeover.com')).toThrow(/url/);
   });
+
+  it('http://example.com/yjIwzjEuMA==-b', () => {
+    expect(() => Types.validate(new Types.string().url(), 'http://example.com/yjIwzjEuMA==-b')).not.toThrow();
+  })
 });
