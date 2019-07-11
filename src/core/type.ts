@@ -15,9 +15,16 @@ export type IValidator<T> = (key: string, value: T, options?: IOptions) => void;
 export abstract class Type<T> implements IType<T> {
   private meta = {
     required: false,
+    nullable: false,
     default: undefined as any as T,
   };
   protected validators: IValidator<any>[] = [];
+
+  protected abstract type(): this;
+
+  constructor() {
+    this.type();
+  }
 
   // @TODO should private
   public getMeta(name: string): boolean {
@@ -27,8 +34,6 @@ export abstract class Type<T> implements IType<T> {
 
     return this.meta[name];
   }
-
-  protected abstract type(): this;
 
   protected addValidator<V>(validator: IValidator<V>) {
     this.validators.push(validator);
@@ -40,6 +45,7 @@ export abstract class Type<T> implements IType<T> {
 
   public required() {
     this.meta.required = true;
+    this.meta.nullable = false;
 
     this.headValidator(assert(
       (v: any) => !isUndefined(v),
@@ -56,8 +62,13 @@ export abstract class Type<T> implements IType<T> {
 
   public optional() {
     this.meta.required = false;
+    this.meta.nullable = true;
 
     return this;
+  }
+
+  public nullable() {
+    return this.optional();
   }
 
   public oneOf(values: T[]) {
@@ -74,6 +85,10 @@ export abstract class Type<T> implements IType<T> {
   }
 
   public validate(path: string, value: any, options?: IOptions) {
+    if (this.meta.nullable) {
+      return value;
+    }
+
     this.validators.forEach(validator => {
       validator(path, value, options);
     });

@@ -72,6 +72,11 @@ export function validate<S extends ISchema, V>(schema: S, value: V, options?: IO
 
     const o = (schema as any as Types.array<any>);
     const s = o.getType();
+
+    if (schema.getMeta('nullable') && v === null) {
+      return null;
+    }
+
     return v.map((ev, index) => {
       const nextPath = `${path}.${index}`;
       return validate(s, ev, {

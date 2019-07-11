@@ -10,8 +10,6 @@ export interface IObject<T extends object> extends IType<T> {
 class Objectx<T extends object> extends Type<T> implements IObject<T> {
   constructor(private value: T) {
     super();
-
-    this.type();
   }
 
   public type() {
