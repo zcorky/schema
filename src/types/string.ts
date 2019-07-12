@@ -64,7 +64,7 @@ export default class extends Type<string> {
 
   public url() {
     this.addValidator(assert(
-      (v: string) => /^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i.test(v),
+      (v: string) => /^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9=_-](\?)?)*)*$/i.test(v),
       `[{name}] {path} with value "{value}" must be a url`,
     ));
     return this;
