@@ -5,30 +5,40 @@ describe('optional', () => {
     expect(() => Types.validate(new Types.string().required(), undefined)).toThrow(/required/);
     expect(() => Types.validate(new Types.string(), undefined)).not.toThrow(/required/);
     expect(() => Types.validate(new Types.string().optional(), undefined)).not.toThrow(/required/);
+
+    expect(() => Types.validate(new Types.string().optional(), null)).not.toThrow();
   });
 
   it('number', () => {
     expect(() => Types.validate(new Types.number().required(), undefined)).toThrow(/required/);
     expect(() => Types.validate(new Types.number(), undefined)).not.toThrow(/required/);
     expect(() => Types.validate(new Types.number().optional(), undefined)).not.toThrow(/required/);
+
+    expect(() => Types.validate(new Types.number().optional(), null)).not.toThrow();
   });
 
   it('boolean', () => {
     expect(() => Types.validate(new Types.boolean().required(), undefined)).toThrow(/required/);
     expect(() => Types.validate(new Types.boolean(), undefined)).not.toThrow(/required/);
     expect(() => Types.validate(new Types.boolean().optional(), undefined)).not.toThrow(/required/);
+
+    expect(() => Types.validate(new Types.boolean().optional(), null)).not.toThrow();
   });
 
   it('object', () => {
     expect(() => Types.validate(new Types.object({}).required(), undefined)).toThrow(/required/);
     expect(() => Types.validate(new Types.object({}), undefined)).not.toThrow(/required/);
     expect(() => Types.validate(new Types.object({}).optional(), undefined)).not.toThrow(/required/);
+
+    expect(() => Types.validate(new Types.object({}).optional(), null)).not.toThrow();
   });
 
   it('array', () => {
     expect(() => Types.validate(new Types.array({}).required(), undefined)).toThrow(/required/);
     expect(() => Types.validate(new Types.array({}), undefined)).not.toThrow(/required/);
     expect(() => Types.validate(new Types.array({}).optional(), undefined)).not.toThrow(/required/);
+
+    expect(() => Types.validate(new Types.array({}).optional(), null)).not.toThrow();
   });
 
   it('complex 1', () => {

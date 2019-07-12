@@ -6,8 +6,6 @@ import { assert } from '../utils';
 export default class extends Type<boolean> {
   constructor() {
     super();
-
-    this.type();
   }
 
   public type() {

@@ -6,8 +6,6 @@ import { assert } from '../utils';
 export default class <T> extends Type<T> {
   constructor(private value: T) {
     super();
-
-    this.type();
   }
 
   public type() {
