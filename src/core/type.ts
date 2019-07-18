@@ -85,8 +85,8 @@ export abstract class Type<T> implements IType<T> {
   }
 
   public validate(path: string, value: any, options?: IOptions) {
-    if (this.meta.nullable) {
-      return value;
+    if (this.meta.nullable && value === null) {
+      return null;
     }
 
     this.validators.forEach(validator => {

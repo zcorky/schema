@@ -12,6 +12,7 @@ describe('optional', () => {
   it('number', () => {
     expect(() => Types.validate(new Types.number().required(), undefined)).toThrow(/required/);
     expect(() => Types.validate(new Types.number(), undefined)).not.toThrow(/required/);
+    expect(() => Types.validate(new Types.number().optional(), '12')).toThrow();
     expect(() => Types.validate(new Types.number().optional(), undefined)).not.toThrow(/required/);
 
     expect(() => Types.validate(new Types.number().optional(), null)).not.toThrow();
