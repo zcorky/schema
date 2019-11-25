@@ -21,8 +21,15 @@ describe('optional', () => {
     expect(() => Types.validate(new Types.object({}).nullable(), null)).not.toThrow();
   });
 
-
   it('array', () => {
     expect(() => Types.validate(new Types.array({}).nullable(), null)).not.toThrow();
+  });
+
+  it('comple object', () => {
+    const schema = new Types.object({
+      id: new Types.string().required(),
+    }).nullable();
+
+    expect(() => Types.validate(schema, null)).not.toThrow();
   });
 });
