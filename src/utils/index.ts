@@ -3,18 +3,21 @@ import { format } from '@zodash/format';
 import { ValidationError } from './error';
 
 import { IOptions } from '../core/interface';
+import { locale } from '../core/locale';
 
 export const assert = <T>(fn: (v: T) => boolean, message: string) => {
   return (path: string, value: T, options: IOptions) => {
     if (!fn(value)) {
       const name = options && options.name || DEFAULT_OPTIONS.name;
 
-      const msg = format(message, {
-        ...options,
-        name,
-        path,
-        value,
-      });
+      const msg = locale.format(
+        format(message, {
+          ...options,
+          name,
+          path,
+          value,
+        }),
+      );
 
       const detail = {
         name: 'ValidationError',
