@@ -17,6 +17,7 @@ export abstract class Type<T> implements IType<T> {
     required: false,
     nullable: false,
     default: undefined as any as T,
+    transform: (origin: any) => origin,
   };
   protected validators: IValidator<any>[] = [];
 
@@ -93,6 +94,15 @@ export abstract class Type<T> implements IType<T> {
       validator(path, value, options);
     });
 
-    return value;
+    return this.meta.transform(value);
+  }
+
+  public toValue(transform?: (origin: T) => any) {
+    if (typeof transform !== 'function') {
+      return this;
+    }
+
+    this.meta.transform = transform;
+    return this;
   }
 }

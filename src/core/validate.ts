@@ -44,7 +44,7 @@ export function validate<S extends ISchema, V>(schema: S, value: V, options?: IO
 
   // object
   if (schemaOf(schema, Types.object)) {
-    const v = schema.validate(path, value, options);
+    const v = schema.validate(path, value, options) as any;
 
     if (schema.getMeta('nullable') && v === null) {
       return null;
